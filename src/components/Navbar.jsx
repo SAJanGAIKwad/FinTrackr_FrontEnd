@@ -1,7 +1,7 @@
 // src/components/Navbar.js
 import React, { useState, useContext } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHome, FaUserPlus, FaSignInAlt, FaMoneyCheckAlt } from 'react-icons/fa';
+import { FaHome, FaUserPlus, FaSignInAlt, FaMoneyCheckAlt, FaBullseye } from 'react-icons/fa';
 import logo from '../logo.png';
 import { AuthContext } from '../context/AuthContext';
 
@@ -44,6 +44,11 @@ const Navbar = () => {
               <li>
                 <Link to="/transactions" className="text-white flex items-center">
                   <FaMoneyCheckAlt className="mr-2" /> Transactions
+                </Link>
+              </li>
+              <li>
+                <Link to="goals" className="text-white flex items-center">
+                  <FaBullseye className="mr-2" /> Goal
                 </Link>
               </li>
               <li>

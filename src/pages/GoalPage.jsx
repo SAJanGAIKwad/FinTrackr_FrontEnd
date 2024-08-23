@@ -1,0 +1,33 @@
+import React, {useEffect } from 'react';
+import axios from 'axios';
+import GoalForm from '../components/GoalForm';
+
+const GoalsPage = () => {
+
+    const fetchGoals = async () => {
+        try {
+            const res = await axios.get('http://localhost:5000/api/goals', {
+                headers: { 'x-auth-token': localStorage.getItem('token') },
+            });
+            setGoals(res.data);
+        } catch (err) {
+            console.error('Error fetching goals:', err);
+        }
+    };
+
+    useEffect(() => {
+        fetchGoals();
+    }, []);
+
+    const handleGoalAdded = () => {
+        fetchGoals(); // Re-fetch goals when a new goal is added
+    };
+
+    return (
+        <div className="container mx-auto pt-16 min-h-screen">
+            <GoalForm onGoalAdded={handleGoalAdded} />
+        </div>
+    );
+};
+
+export default GoalsPage;

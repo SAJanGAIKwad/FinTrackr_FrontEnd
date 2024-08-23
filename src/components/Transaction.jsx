@@ -17,7 +17,7 @@ const Transaction = () => {
   }, [navigate]);
 
   return (
-    <div className="container mx-auto p-4 min-h-screen flex flex-col items-center justify-center ">
+    <div className="container mx-auto pt-10 min-h-screen flex flex-col items-center justify-center ">
       <h2 className="text-2xl font-bold mb-4">Transaction</h2>
       {userId ? (
         <>

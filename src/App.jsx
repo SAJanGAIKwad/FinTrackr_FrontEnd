@@ -10,7 +10,8 @@ import Footer from './components/Footer';
 import ExpenseDetails from './pages/ExpenseDetails';
 import ExpenseChart from './components/ExpenseChart';
 import ExpensePrediction from './components/ExpensePredictions';
-
+import GoalPage from './pages/GoalPage';
+import GoalList from './components/GoalList';
 const App = () => {
   const [userId, setUserId] = useState('');
 
@@ -35,6 +36,8 @@ const App = () => {
           <Route exact path="/expensedetails" element={<ExpenseDetails />} />
           <Route exact path="/expenseprediction" element={<ExpensePrediction />} />
           <Route exact path="/expensechart" element={<ExpenseChart userId={userId} />} />
+          <Route exact path="/goals" element={<GoalPage />} />
+          <Route exact path="goalslist" element={<GoalList />} />
         </Routes>
         <Footer />
       </Router>
