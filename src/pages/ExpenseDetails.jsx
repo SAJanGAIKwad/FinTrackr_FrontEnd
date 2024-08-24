@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import ExpenseList from '../components/ExpenseList';
+import ExpenseList from '../components/Expense/ExpenseList';
 import { Link } from 'react-router-dom';
 
 const ExpenseDeatils = () => {

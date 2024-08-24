@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import AddExpense from './AddExpense';
+import AddExpense from './Expense/AddExpense';
 import { FaMoneyCheckAlt } from 'react-icons/fa';
 import { Link, useNavigate } from 'react-router-dom';
 
