@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useContext } from 'react';
+import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
@@ -6,16 +7,17 @@ import { ToastContainer, toast } from 'react-toastify';
 const GoalList = () => {
     const { userId } = useContext(AuthContext);
     const [goals, setGoals] = useState([]);
-    const [editGoalId, setEditGoalId] = useState(null); // Track the goal being edited
+    const [editGoalId, setEditGoalId] = useState(null);
     const [currentAmount, setCurrentAmount] = useState('');
 
+    const navigate = useNavigate();
     useEffect(() => {
         const fetchGoals = async () => {
             try {
                 const res = await axios.get('http://localhost:5000/api/goals', {
                     headers: { 'x-auth-token': localStorage.getItem('token') },
                 });
-                setGoals(res.data);
+                setGoals(res.data.filter(goal => !goal.isAchieved));
             } catch (err) {
                 console.error('Error fetching goals:', err);
             }
@@ -26,19 +28,33 @@ const GoalList = () => {
 
     const handleUpdate = async (goalId) => {
         try {
+            const goalToUpdate = goals.find(goal => goal._id === goalId);
+            const updatedCurrentAmount = parseFloat(goalToUpdate.currentAmount) + parseFloat(currentAmount);
+
             const res = await axios.put(
                 `http://localhost:5000/api/goals/${goalId}`,
-                { currentAmount },
+                { currentAmount: updatedCurrentAmount },
                 { headers: { 'x-auth-token': localStorage.getItem('token') } }
             );
+
             toast.success('Goal updated successfully!');
-            setGoals((prevGoals) =>
-                prevGoals.map((goal) =>
-                    goal._id === goalId ? { ...goal, currentAmount: res.data.currentAmount } : goal
-                )
-            );
-            setEditGoalId(null); // Close the input field after updating
-            setCurrentAmount(''); // Clear the input field
+
+            if (updatedCurrentAmount >= goalToUpdate.targetAmount) {
+                // Remove the achieved goal from the list
+                setGoals((prevGoals) =>
+                    prevGoals.filter((goal) => goal._id !== goalId)
+                );
+            } else {
+                // Update the current amount in the goals list
+                setGoals((prevGoals) =>
+                    prevGoals.map((goal) =>
+                        goal._id === goalId ? { ...goal, currentAmount: updatedCurrentAmount } : goal
+                    )
+                );
+            }
+
+            setEditGoalId(null);
+            setCurrentAmount('');
         } catch (err) {
             console.error('Error updating goal:', err);
             toast.error('Error updating goal');
@@ -49,6 +65,14 @@ const GoalList = () => {
         <div className="pt-16 bg-gray-100 min-h-screen">
             <div className="max-w-4xl mx-auto p-6 my-8 bg-white rounded-lg shadow-lg">
                 <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Your Goals</h2>
+                <div className="mb-6 text-right">
+                    <button
+                        onClick={() => navigate('/achievedgoals')}
+                        className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors"
+                    >
+                        View Achieved Goals
+                    </button>
+                </div>
                 {goals.length > 0 ? (
                     goals.map((goal) => {
                         const percentageComplete = (goal.currentAmount / goal.targetAmount) * 100;

@@ -12,6 +12,7 @@ import ExpenseChart from './components/Expense/ExpenseChart';
 import GoalPage from './pages/GoalPage';
 import GoalList from './components/Goal/GoalList';
 import Profile from './components/User/Profile';
+import AchievedGoals from './components/Goal/AchievedGoals';
 
 const App = () => {
   const [userId, setUserId] = useState('');
@@ -39,6 +40,7 @@ const App = () => {
           <Route exact path="/expensechart" element={<ExpenseChart userId={userId} />} />
           <Route exact path="/goals" element={<GoalPage />} />
           <Route exact path="goalslist" element={<GoalList />} />
+          <Route exact path="achievedgoals" element={<AchievedGoals />} />
         </Routes>
         <Footer />
       </Router>
