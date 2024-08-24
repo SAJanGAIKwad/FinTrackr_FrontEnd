@@ -1,6 +1,6 @@
 import React, { useState, useContext, useEffect, useRef } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
-import { FaHome, FaUserPlus, FaMoneyCheckAlt, FaBullseye, FaUser } from 'react-icons/fa';
+import { FaHome, FaUserPlus, FaMoneyCheckAlt, FaBullseye, FaUser, FaUserCircle, FaSignOutAlt } from 'react-icons/fa';
 import logo from '../logo.png';
 import { AuthContext } from '../context/AuthContext';
 
@@ -15,6 +15,10 @@ const Navbar = () => {
     setIsOpen(!isOpen);
   };
 
+  const closeMenu = () => {
+    setIsOpen(false);
+  };
+
   const toggleDropdown = () => {
     setDropdownOpen(!dropdownOpen);
   };
@@ -22,7 +26,7 @@ const Navbar = () => {
   const handleLogout = () => {
     logout();
     navigate('/login');
-    setIsOpen(false); // Close menu on logout
+    closeMenu(); // Close menu when logout is clicked
   };
 
   useEffect(() => {
@@ -41,7 +45,7 @@ const Navbar = () => {
   return (
     <nav className="fixed top-0 left-0 w-full bg-sky-900 p-4 flex flex-wrap justify-between items-center z-50">
       <div className="flex justify-between items-center w-full md:w-auto">
-        <Link to="/" className="flex items-center" onClick={() => setIsOpen(false)}>
+        <Link to="/" className="flex items-center" onClick={closeMenu}>
           <img src={logo} alt="Finance Tracker Logo" className="rounded h-8 mr-2" />
           <h1 className="text-white text-2xl font-bold">FinTrackr</h1>
         </Link>
@@ -51,58 +55,57 @@ const Navbar = () => {
           </svg>
         </button>
       </div>
-      <div
-        className={`w-full md:flex md:items-center md:w-auto overflow-hidden transform transition-all duration-700 ease-in-out ${
-          isOpen ? 'max-h-screen opacity-100 translate-y-0' : 'max-h-0 opacity-0 -translate-y-full md:max-h-full md:opacity-100 md:translate-y-0'
-        }`}
-      >
-        <ul className="md:flex md:space-x-6 text-center md:text-left">
-          <li>
-            <Link to="/" className="text-white flex items-center text-lg md:text-base py-2" onClick={() => setIsOpen(false)}>
+      <div className={`w-full md:flex md:items-center md:w-auto ${isOpen ? '' : 'hidden'}`}>
+        <ul className="md:flex md:space-x-6 text-center md:text-left w-full md:w-auto">
+          <li className="my-2 md:my-0 flex justify-center">
+            <Link to="/" className="text-white flex items-center text-lg md:text-base py-2" onClick={closeMenu}>
               <FaHome className="mr-2" /> Home
             </Link>
           </li>
           {isLoggedIn ? (
             <>
-              <li>
-                <Link to="/transactions" className="text-white flex items-center text-lg md:text-base py-2" onClick={() => setIsOpen(false)}>
+              <li className="my-2 md:my-0 flex justify-center">
+                <Link to="/transactions" className="text-white flex items-center text-lg md:text-base py-2" onClick={closeMenu}>
                   <FaMoneyCheckAlt className="mr-2" /> Transactions
                 </Link>
               </li>
-              <li>
-                <Link to="/goals" className="text-white flex items-center text-lg md:text-base py-2" onClick={() => setIsOpen(false)}>
+              <li className="my-2 md:my-0 flex justify-center">
+                <Link to="/goals" className="text-white flex items-center text-lg md:text-base py-2" onClick={closeMenu}>
                   <FaBullseye className="mr-2" /> Goals
                 </Link>
               </li>
-              <li className="relative" ref={dropdownRef}>
+              <li className="relative my-2 md:my-0 flex justify-center" ref={dropdownRef}>
                 <button onClick={toggleDropdown} className="text-white flex items-center text-lg md:text-base py-2">
                   <FaUser className="mr-2" /> Profile
                 </button>
                 {dropdownOpen && (
-                  <div className="absolute right-0 mt-2 w-48 bg-white rounded-md shadow-lg py-2 z-50">
+                  <div className="absolute right-0 mt-2 w-40 bg-white rounded-md shadow-lg py-1 z-50">
                     <Link
                       to="/profile"
-                      className="block px-4 py-2 text-gray-800 hover:bg-gray-200"
+                      className="block px-4 py-2 text-gray-800 hover:bg-gray-200 flex items-center justify-center"
                       onClick={() => {
                         setDropdownOpen(false);
-                        setIsOpen(false);
+                        closeMenu();
                       }}
                     >
-                      View Profile
+                      <FaUserCircle className="mr-2" /> View Profile
                     </Link>
                     <button
-                      onClick={handleLogout}
-                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200"
+                      onClick={() => {
+                        handleLogout();
+                        closeMenu();
+                      }}
+                      className="block w-full text-left px-4 py-2 text-gray-800 hover:bg-gray-200 flex items-center justify-center"
                     >
-                      Logout
+                      <FaSignOutAlt className="mr-2" /> Logout
                     </button>
                   </div>
                 )}
               </li>
             </>
           ) : (
-            <li>
-              <Link to="/register" className="text-white flex items-center text-lg md:text-base py-2" onClick={() => setIsOpen(false)}>
+            <li className="my-2 md:my-0 flex justify-center">
+              <Link to="/register" className="text-white flex items-center text-lg md:text-base py-2" onClick={closeMenu}>
                 <FaUserPlus className="mr-2" /> Register
               </Link>
             </li>

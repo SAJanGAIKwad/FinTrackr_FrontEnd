@@ -3,6 +3,7 @@ import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
 import { ToastContainer, toast } from 'react-toastify';
+import { motion } from 'framer-motion'; // Import Framer Motion
 
 const GoalList = () => {
     const { userId } = useContext(AuthContext);
@@ -14,7 +15,7 @@ const GoalList = () => {
     useEffect(() => {
         const fetchGoals = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/goals', {
+                const res = await axios.get('http://192.168.172.94:5000/api/goals', {
                     headers: { 'x-auth-token': localStorage.getItem('token') },
                 });
                 setGoals(res.data.filter(goal => !goal.isAchieved));
@@ -32,7 +33,7 @@ const GoalList = () => {
             const updatedCurrentAmount = parseFloat(goalToUpdate.currentAmount) + parseFloat(currentAmount);
 
             const res = await axios.put(
-                `http://localhost:5000/api/goals/${goalId}`,
+                `http://192.168.172.94:5000/api/goals/${goalId}`,
                 { currentAmount: updatedCurrentAmount },
                 { headers: { 'x-auth-token': localStorage.getItem('token') } }
             );
@@ -64,20 +65,37 @@ const GoalList = () => {
     return (
         <div className="pt-16 bg-gray-100 min-h-screen">
             <div className="max-w-4xl mx-auto p-6 my-8 bg-white rounded-lg shadow-lg">
-                <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center">Your Goals</h2>
+                <motion.h2
+                    className="text-3xl font-bold text-gray-800 mb-8 text-center"
+                    initial={{ opacity: 0, y: -20 }}
+                    animate={{ opacity: 1, y: 0 }}
+                    transition={{ duration: 0.5 }}
+                >
+                    Your Goals
+                </motion.h2>
+
                 <div className="mb-6 text-right">
-                    <button
+                    <motion.button
                         onClick={() => navigate('/achievedgoals')}
                         className="bg-green-500 text-white py-2 px-4 rounded-md hover:bg-green-600 transition-colors"
+                        whileHover={{ scale: 1.1 }}
+                        whileTap={{ scale: 0.9 }}
                     >
                         View Achieved Goals
-                    </button>
+                    </motion.button>
                 </div>
+
                 {goals.length > 0 ? (
                     goals.map((goal) => {
                         const percentageComplete = (goal.currentAmount / goal.targetAmount) * 100;
                         return (
-                            <div key={goal._id} className="mb-8 p-6 bg-violet-50 border border-violet-200 rounded-lg shadow-sm">
+                            <motion.div
+                                key={goal._id}
+                                className="mb-8 p-6 bg-violet-50 border border-violet-200 rounded-lg shadow-sm"
+                                initial={{ opacity: 0, y: 20 }}
+                                animate={{ opacity: 1, y: 0 }}
+                                transition={{ duration: 0.5 }}
+                            >
                                 <h3 className="text-2xl font-semibold text-violet-700 mb-4">{goal.title}</h3>
                                 <div className="text-gray-700">
                                     <p className="mb-2">
@@ -106,35 +124,47 @@ const GoalList = () => {
                                     <div className="mt-4">
                                         {editGoalId === goal._id ? (
                                             <>
-                                                <input
+                                                <motion.input
                                                     type="number"
                                                     placeholder="Update Current Amount"
                                                     value={currentAmount}
                                                     onChange={(e) => setCurrentAmount(e.target.value)}
                                                     className="p-2 border border-gray-300 rounded-md w-full mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    whileFocus={{ scale: 1.02 }}
                                                 />
-                                                <button
+                                                <motion.button
                                                     onClick={() => handleUpdate(goal._id)}
-                                                    className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+                                                    className="w-full bg-sky-900 text-white py-2 rounded-md hover:bg-sky-700 transition-colors"
+                                                    whileHover={{ scale: 1.05 }}
+                                                    whileTap={{ scale: 0.95 }}
                                                 >
                                                     Save
-                                                </button>
+                                                </motion.button>
                                             </>
                                         ) : (
-                                            <button
+                                            <motion.button
                                                 onClick={() => setEditGoalId(goal._id)}
-                                                className="w-full bg-blue-500 text-white py-2 rounded-md hover:bg-blue-600 transition-colors"
+                                                className="w-full bg-sky-900 text-white py-2 rounded-md hover:bg-sky-700 transition-colors"
+                                                whileHover={{ scale: 1.05 }}
+                                                whileTap={{ scale: 0.95 }}
                                             >
                                                 Update
-                                            </button>
+                                            </motion.button>
                                         )}
                                     </div>
                                 </div>
-                            </div>
+                            </motion.div>
                         );
                     })
                 ) : (
-                    <p className="text-gray-600 text-center">No goals found. Start by setting a new goal!</p>
+                    <motion.p
+                        className="text-gray-600 text-center"
+                        initial={{ opacity: 0 }}
+                        animate={{ opacity: 1 }}
+                        transition={{ duration: 0.5 }}
+                    >
+                        No goals found. Start by setting a new goal!
+                    </motion.p>
                 )}
             </div>
             <ToastContainer />

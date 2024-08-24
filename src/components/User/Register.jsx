@@ -16,7 +16,7 @@ const Register = () => {
     e.preventDefault();
     const newUser = { name, email, password };
     try {
-      const res = await axios.post('http://localhost:5000/api/auth/register', newUser);
+      const res = await axios.post('http://192.168.172.94:5000/api/auth/register', newUser);
       const token = res.data.token; // Get token from response
       localStorage.setItem('token', token); // Store token in local storage
       toast.success('Registration successful!', {

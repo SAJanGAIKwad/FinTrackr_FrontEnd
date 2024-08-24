@@ -6,7 +6,7 @@ const GoalsPage = () => {
     // const [goals, setGoals] = useState([]);
     const fetchGoals = async () => {
         try {
-            const res = await axios.get('http://localhost:5000/api/goals', {
+            const res = await axios.get('http://192.168.172.94:5000/api/goals', {
                 headers: { 'x-auth-token': localStorage.getItem('token') },
             });
             // setGoals(res.data);

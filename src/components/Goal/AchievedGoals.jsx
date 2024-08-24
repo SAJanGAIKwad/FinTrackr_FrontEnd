@@ -9,7 +9,7 @@ const AchievedGoals = () => {
     useEffect(() => {
         const fetchAchievedGoals = async () => {
             try {
-                const res = await axios.get('http://localhost:5000/api/goals/achieved', {
+                const res = await axios.get('http://192.168.172.94:5000/api/goals/achieved', {
                     headers: { 'x-auth-token': localStorage.getItem('token') },
                 });
                 setAchievedGoals(res.data);

@@ -20,7 +20,7 @@ const ExpenseChart = () => {
     useEffect(() => {
         const fetchExpenses = async () => {
             try {
-                const response = await axios.get(`http://localhost:5000/api/expenses/${userId}`);
+                const response = await axios.get(`http://192.168.172.94:5000/api/expenses/${userId}`);
                 const expenses = response.data;
 
                 if (!expenses || !Array.isArray(expenses)) {
@@ -56,8 +56,8 @@ const ExpenseChart = () => {
     }, [userId]);
 
     return (
-        <div className='p-20'>
-            <div className="container mx-auto px-4 py-9 min-h-screen bg-gray-100">
+        <div className='pt-12 min-h-screen'>
+            <div className="container mx-auto px-4 py-14 bg-gray-100">
                 <h2 className="text-xl font-semibold mb-4">Expenses by Category</h2>
                 <div className="chart-container">
                     <div className='relative w-full h-[400px] mb-[50px]'>

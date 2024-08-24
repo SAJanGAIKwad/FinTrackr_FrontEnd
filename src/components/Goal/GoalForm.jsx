@@ -15,7 +15,7 @@ const GoalForm = ({ onGoalAdded }) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://localhost:5000/api/goals', goal, {
+            const res = await axios.post('http://192.168.172.94:5000/api/goals', goal, {
                 headers: { 'x-auth-token': localStorage.getItem('token') },
             });
             toast.success('Goal created successfully!');
@@ -27,8 +27,8 @@ const GoalForm = ({ onGoalAdded }) => {
     };
 
     return (
-        <div className="max-w-md flex mx-auto flex-col items-center justify-center bg-white rounded-xl shadow-md overflow-hidden md:max-w-2xl p-6 my-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Set a New Goal</h2>
+        <div className="max-w-md flex mx-auto flex-col items-center justify-center bg-white rounded-xl shadow-md overflow-hidden md:min-w-2xl p-6 my-8">
+            <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Set your's New Goal</h2>
             <form onSubmit={onSubmit} className="space-y-4">
                 <input
                     type="text"
@@ -59,7 +59,7 @@ const GoalForm = ({ onGoalAdded }) => {
                 />
                 <button
                     type="submit"
-                    className="w-full bg-blue-500 text-white py-3 rounded-md hover:bg-blue-600 transition-colors"
+                    className="w-full bg-sky-900 text-white py-3 rounded-md hover:bg-blue-600 transition-colors"
                 >
                     Save Goal
                 </button>

@@ -16,7 +16,7 @@ const AddExpense = ({ userId, onAdd }) => {
     e.preventDefault();
     try {
       const newExpense = { amount: parseFloat(amount), category, description, currency, userId };
-      const response = await axios.post('http://localhost:5000/api/expenses/add', newExpense);
+      const response = await axios.post('http://192.168.172.94:5000/api/expenses/add', newExpense);
       onAdd(response.data);
       setAmount('');
       setCategory('');
@@ -90,7 +90,7 @@ const AddExpense = ({ userId, onAdd }) => {
         </div>
         <button
           type="submit"
-          className="w-full bg-blue-500 text-white p-2 rounded hover:bg-blue-600 focus:outline-none focus:bg-blue-600 transition duration-200"
+          className="w-full bg-sky-900 text-white py-2 rounded-md hover:bg-sky-700 focus:outline-none focus:bg-blue-600 transition duration-200"
         >
           Add Expense
         </button>
