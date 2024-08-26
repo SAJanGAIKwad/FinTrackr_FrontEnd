@@ -2,9 +2,11 @@ import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
 import { FaUser, FaEnvelope, FaCalendarAlt, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
+import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
 
 const Profile = () => {
     const { userId } = useContext(AuthContext);
+    const { darkMode } = useContext(ThemeContext); // Access ThemeContext
     const [userData, setUserData] = useState(null);
     const [loading, setLoading] = useState(true);
     const [error, setError] = useState(null);
@@ -61,23 +63,23 @@ const Profile = () => {
     };
 
     if (loading) {
-        return <div className="flex justify-center items-center min-h-screen">Loading...</div>;
+        return <div className={`flex justify-center items-center min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100'}`}>Loading...</div>;
     }
 
     if (error) {
-        return <div className="text-center text-red-500 mt-4">{error}</div>;
+        return <div className={`text-center text-red-500 mt-4 ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100'}`}>{error}</div>;
     }
 
     return (
-        <div className="pt-16 bg-gray-100 min-h-screen">
-            <div className="max-w-4xl mx-auto p-6 my-8 bg-white rounded-lg shadow-lg">
-                <h2 className="text-3xl font-bold text-gray-800 mb-8 text-center flex items-center justify-center">
+        <div className={`${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100'} min-h-screen pt-16`}>
+            <div className={`max-w-4xl mx-auto p-6 my-8 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+                <h2 className="text-3xl font-bold mb-8 text-center flex items-center justify-center">
                     <FaUser className="mr-2" /> Profile
                 </h2>
                 {editing ? (
                     <form onSubmit={handleSubmit}>
                         <div className="mb-4">
-                            <label className="block text-gray-700">Name</label>
+                            <label className="block text-sm font-bold mb-2">Name</label>
                             <div className="relative">
                                 <FaUser className="absolute top-2.5 left-3 text-gray-400" />
                                 <input
@@ -85,13 +87,13 @@ const Profile = () => {
                                     name="name"
                                     value={formData.name}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 pl-10 block w-full border rounded focus:ring focus:ring-blue-200"
+                                    className={`mt-1 p-2 pl-10 block w-full border rounded focus:ring focus:ring-blue-200 ${darkMode ? 'bg-gray-700 text-white' : 'text-gray-700'}`}
                                     required
                                 />
                             </div>
                         </div>
                         <div className="mb-4">
-                            <label className="block text-gray-700">Email</label>
+                            <label className="block text-sm font-bold mb-2">Email</label>
                             <div className="relative">
                                 <FaEnvelope className="absolute top-2.5 left-3 text-gray-400" />
                                 <input
@@ -99,7 +101,7 @@ const Profile = () => {
                                     name="email"
                                     value={formData.email}
                                     onChange={handleChange}
-                                    className="mt-1 p-2 pl-10 block w-full border rounded focus:ring focus:ring-blue-200"
+                                    className={`mt-1 p-2 pl-10 block w-full border rounded focus:ring focus:ring-blue-200 ${darkMode ? 'bg-gray-700 text-white' : 'text-gray-700'}`}
                                     required
                                 />
                             </div>
@@ -121,7 +123,7 @@ const Profile = () => {
                         </div>
                     </form>
                 ) : (
-                    <div className="text-gray-700">
+                    <div className={`text-gray-700 ${darkMode ? 'text-white' : ''}`}>
                         <p className="mb-4 flex items-center">
                             <FaUser className="mr-2 text-gray-500" /> <span className="font-medium mx-2">Name: </span> {userData.name || 'Not available'}
                         </p>

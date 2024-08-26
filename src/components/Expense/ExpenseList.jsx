@@ -89,12 +89,26 @@ const ExpenseList = ({ userId }) => {
     }
   };
 
-  const totalExpense = expenses.reduce((total, expense) => total + expense.amount, 0).toFixed(2);
+  const conversionRates = {
+    INR: 0.012, // Example: 1 INR = 0.012 USD
+    USD: 1,     // USD to USD conversion rate is 1
+    EUR: 1.08,  // Example: 1 EUR = 1.08 USD
+    GBP: 1.27,  // Conversion rate from GBP to USD
+    JPY: 0.0070
+  };
+
+  const totalExpense = expenses
+    .reduce((total, expense) => {
+      const rate = conversionRates[expense.currency] || 1;
+      return total + expense.amount * rate;
+    }, 0)
+    .toFixed(2);
+
 
   return (
-    <div className='min-h-screen'>
-      <div className="container mx-auto p-4 bg-gray-100">
-        <h2 className="text-2xl font-bold mb-4">Expense List</h2>
+    <div className="min-h-screen ">
+      <div className="container mx-auto pb-4 bg-gray-100 rounded-lg shadow-md">
+        <h2 className="text-2xl font-bold mb-4 bg-white p-3">Expense List</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
             <thead>
@@ -157,6 +171,11 @@ const ExpenseList = ({ userId }) => {
           </div>
         </div>
 
+        <div className="mt-8 bg-white m-4 p-4 rounded-lg ">
+          <h3 className="text-lg font-semibold text-gray-700">Total Expense</h3>
+          <p className="text-2xl font-bold text-sky-900">${totalExpense}</p>
+        </div>
+
         {editingExpense && (
           <div
             className="fixed inset-0 bg-black bg-opacity-50 flex items-center justify-center z-50"
@@ -208,14 +227,15 @@ const ExpenseList = ({ userId }) => {
                   value={form.currency}
                   onChange={(e) => setForm({ ...form, currency: e.target.value })}
                 >
+                  <option value="">Select currency</option>
+                  <option value="INR">INR</option>
                   <option value="USD">USD</option>
                   <option value="EUR">EUR</option>
-                  <option value="GBP">GBP</option>
-                  <option value="INR">INR</option>
-                  <option value="JPY">JPY</option>
+                  <option value="EUR">GBP</option>
+                  <option value="EUR">JPY</option>
                 </select>
               </div>
-              <div className="mt-4 flex justify-end">
+              <div className="flex justify-end space-x-4">
                 <button
                   className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
                   onClick={updateExpense}

@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route } from 'react-router-dom';
 import AuthProvider from './context/AuthContext';
+import {ThemeProvider} from './context/ThemeContext';
 import Register from './components/User/Register';
 import Login from './components/User/Login';
 import Transaction from './components/Transaction';
@@ -28,22 +29,24 @@ const App = () => {
 
   return (
     <AuthProvider>
-      <Router>
-        <Navbar />
-        <Routes>
-          <Route exact path="/" element={<Home />} />
-          <Route exact path="/register" element={<Register />} />
-          <Route exact path="/login" element={<Login />} />
-          <Route exact path="/profile" element={<Profile />} />
-          <Route exact path="/transactions" element={<Transaction />} />
-          <Route exact path="/expensedetails" element={<ExpenseDetails />} />
-          <Route exact path="/expensechart" element={<ExpenseChart userId={userId} />} />
-          <Route exact path="/goals" element={<GoalPage />} />
-          <Route exact path="goalslist" element={<GoalList />} />
-          <Route exact path="achievedgoals" element={<AchievedGoals />} />
-        </Routes>
-        <Footer />
-      </Router>
+      <ThemeProvider>
+        <Router>
+          <Navbar />
+          <Routes>
+            <Route exact path="/" element={<Home />} />
+            <Route exact path="/register" element={<Register />} />
+            <Route exact path="/login" element={<Login />} />
+            <Route exact path="/profile" element={<Profile />} />
+            <Route exact path="/transactions" element={<Transaction />} />
+            <Route exact path="/expensedetails" element={<ExpenseDetails />} />
+            <Route exact path="/expensechart" element={<ExpenseChart userId={userId} />} />
+            <Route exact path="/goals" element={<GoalPage />} />
+            <Route exact path="goalslist" element={<GoalList />} />
+            <Route exact path="achievedgoals" element={<AchievedGoals />} />
+          </Routes>
+          <Footer />
+        </Router>
+      </ThemeProvider>
     </AuthProvider>
   );
 };

@@ -16,7 +16,7 @@ const ExpenseDeatils = () => {
   }, []);
 
   return (
-    <div className="container mx-auto p-4 h-screen">
+    <div className="container mx-auto p-4 min-h-screen">
       <h2 className="text-2xl font-bold mb-4">Transaction</h2>
       {userId ? (
         <div className='p-5'>
