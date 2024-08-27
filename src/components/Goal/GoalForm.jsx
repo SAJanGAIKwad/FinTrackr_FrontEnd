@@ -1,7 +1,8 @@
-import React, { useState} from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import { Link } from 'react-router-dom';
+import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
 
 const GoalForm = ({ onGoalAdded }) => {
     const [goal, setGoal] = useState({
@@ -9,13 +10,14 @@ const GoalForm = ({ onGoalAdded }) => {
         targetAmount: '',
         deadline: '',
     });
+    const { darkMode, toggleDarkMode } = useContext(ThemeContext); // Access dark mode state and toggle function
 
     const onChange = (e) => setGoal({ ...goal, [e.target.name]: e.target.value });
 
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            const res = await axios.post('http://192.168.172.94:5000/api/goals', goal, {
+            await axios.post('http://192.168.172.94:5000/api/goals', goal, {
                 headers: { 'x-auth-token': localStorage.getItem('token') },
             });
             toast.success('Goal created successfully!');
@@ -27,8 +29,18 @@ const GoalForm = ({ onGoalAdded }) => {
     };
 
     return (
-        <div className="max-w-md flex mx-auto flex-col items-center justify-center bg-white rounded-xl shadow-md overflow-hidden md:min-w-2xl p-6 my-8">
-            <h2 className="text-2xl font-semibold text-gray-800 mb-6 text-center">Set your's New Goal</h2>
+        <div className={`max-w-md flex mx-auto flex-col items-center justify-center ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'} rounded-xl shadow-md overflow-hidden md:min-w-2xl p-6 my-8`}>
+            {/* <div className="flex justify-end w-full">
+                <button
+                    onClick={toggleDarkMode}
+                    className={`mb-4 p-2 rounded-md ${darkMode ? 'bg-gray-700 text-gray-200' : 'bg-gray-200 text-gray-800'}`}
+                >
+                    {darkMode ? 'Light Mode' : 'Dark Mode'}
+                </button>
+            </div> */}
+            <h2 className="text-2xl font-semibold mb-6 text-center">
+                Set Your New Goal
+            </h2>
             <form onSubmit={onSubmit} className="space-y-4">
                 <input
                     type="text"
@@ -36,7 +48,7 @@ const GoalForm = ({ onGoalAdded }) => {
                     placeholder="Goal Title"
                     value={goal.title}
                     onChange={onChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-200' : 'border-gray-300'}`}
                     required
                 />
                 <input
@@ -45,7 +57,7 @@ const GoalForm = ({ onGoalAdded }) => {
                     placeholder="Target Amount"
                     value={goal.targetAmount}
                     onChange={onChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-200' : 'border-gray-300'}`}
                     required
                 />
                 <input
@@ -54,12 +66,12 @@ const GoalForm = ({ onGoalAdded }) => {
                     placeholder="Deadline"
                     value={goal.deadline}
                     onChange={onChange}
-                    className="w-full p-3 border border-gray-300 rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500"
+                    className={`w-full p-3 border rounded-md focus:outline-none focus:ring-2 focus:ring-blue-500 ${darkMode ? 'border-gray-600 bg-gray-700 text-gray-200' : 'border-gray-300'}`}
                     required
                 />
                 <button
                     type="submit"
-                    className="w-full bg-sky-900 text-white py-3 rounded-md hover:bg-blue-600 transition-colors"
+                    className={`w-full py-3 rounded-md ${darkMode ? 'bg-sky-700 hover:bg-sky-600' : 'bg-sky-900 hover:bg-blue-600'} text-white transition-colors`}
                 >
                     Save Goal
                 </button>
@@ -68,7 +80,7 @@ const GoalForm = ({ onGoalAdded }) => {
             <div className="text-center mt-6">
                 <Link
                     to="/goalslist"
-                    className="inline-block text-blue-500 hover:text-blue-700 font-semibold"
+                    className={`inline-block font-semibold ${darkMode ? 'text-blue-300 hover:text-blue-400' : 'text-blue-500 hover:text-blue-700'}`}
                 >
                     View Your Goals
                 </Link>

@@ -1,7 +1,8 @@
-import React, { useState } from 'react';
+import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
 
 const AddExpense = ({ userId, onAdd }) => {
   const [amount, setAmount] = useState('');
@@ -11,6 +12,8 @@ const AddExpense = ({ userId, onAdd }) => {
 
   const categories = ['Food', 'Transport', 'Utilities', 'Entertainment', 'Health', 'Other'];
   const currencies = ['USD', 'EUR', 'INR', 'GBP', 'JPY'];
+
+  const { darkMode } = useContext(ThemeContext); // Access dark mode state
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -31,9 +34,12 @@ const AddExpense = ({ userId, onAdd }) => {
 
   return (
     <>
-      <form onSubmit={handleSubmit} className="bg-white p-4 rounded shadow-md max-w-md mx-auto bg-gray-100">
+      <form
+        onSubmit={handleSubmit}
+        className={`p-6 rounded-xl shadow-md max-w-md mx-auto ${darkMode ? 'bg-gray-800 text-white' : 'bg-white text-gray-800'}`}
+      >
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="amount">Amount</label>
+          <label className="block text-sm font-bold mb-2" htmlFor="amount">Amount</label>
           <input
             id="amount"
             type="number"
@@ -41,17 +47,17 @@ const AddExpense = ({ userId, onAdd }) => {
             value={amount}
             onChange={(e) => setAmount(e.target.value)}
             required
-            className="w-full p-2 border rounded hover:border-blue-500 focus:outline-none focus:border-blue-500 transition duration-200"
+            className={`w-full p-3 border rounded-xl hover:border-blue-500 focus:outline-none focus:border-blue-500 transition duration-200 ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300'}`}
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="category">Category</label>
+          <label className="block text-sm font-bold mb-2" htmlFor="category">Category</label>
           <select
             id="category"
             value={category}
             onChange={(e) => setCategory(e.target.value)}
             required
-            className="w-full p-2 border rounded hover:border-blue-500 focus:outline-none focus:border-blue-500 transition duration-200"
+            className={`w-full p-3 border rounded-xl hover:border-blue-500 focus:outline-none focus:border-blue-500 transition duration-200 ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300'}`}
           >
             <option value="">Select a category</option>
             {categories.map((cat) => (
@@ -62,24 +68,24 @@ const AddExpense = ({ userId, onAdd }) => {
           </select>
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="description">Description</label>
+          <label className="block text-sm font-bold mb-2" htmlFor="description">Description</label>
           <input
             id="description"
             type="text"
             placeholder="Description"
             value={description}
             onChange={(e) => setDescription(e.target.value)}
-            className="w-full p-2 border rounded hover:border-blue-500 focus:outline-none focus:border-blue-500 transition duration-200"
+            className={`w-full p-3 border rounded-xl hover:border-blue-500 focus:outline-none focus:border-blue-500 transition duration-200 ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300'}`}
           />
         </div>
         <div className="mb-4">
-          <label className="block text-gray-700 text-sm font-bold mb-2" htmlFor="currency">Currency</label>
+          <label className="block text-sm font-bold mb-2" htmlFor="currency">Currency</label>
           <select
             id="currency"
             value={currency}
             onChange={(e) => setCurrency(e.target.value)}
             required
-            className="w-full p-2 border rounded hover:border-blue-500 focus:outline-none focus:border-blue-500 transition duration-200"
+            className={`w-full p-3 border rounded-xl hover:border-blue-500 focus:outline-none focus:border-blue-500 transition duration-200 ${darkMode ? 'border-gray-600 bg-gray-700' : 'border-gray-300'}`}
           >
             {currencies.map((cur) => (
               <option key={cur} value={cur}>
@@ -90,7 +96,7 @@ const AddExpense = ({ userId, onAdd }) => {
         </div>
         <button
           type="submit"
-          className="w-full bg-sky-900 text-white py-2 rounded-md hover:bg-sky-700 focus:outline-none focus:bg-blue-600 transition duration-200"
+          className={`w-full py-2 rounded-md ${darkMode ? 'bg-sky-700 hover:bg-sky-600' : 'bg-sky-900 hover:bg-blue-600'} text-white transition duration-200`}
         >
           Add Expense
         </button>

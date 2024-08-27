@@ -2,11 +2,13 @@ import React, { useState, useEffect, useContext } from 'react';
 import { useNavigate } from 'react-router-dom';
 import axios from 'axios';
 import { AuthContext } from '../../context/AuthContext';
+import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
 import { ToastContainer, toast } from 'react-toastify';
 import { motion } from 'framer-motion'; // Import Framer Motion
 
 const GoalList = () => {
     const { userId } = useContext(AuthContext);
+    const { darkMode } = useContext(ThemeContext); // Access darkMode from ThemeContext
     const [goals, setGoals] = useState([]);
     const [editGoalId, setEditGoalId] = useState(null);
     const [currentAmount, setCurrentAmount] = useState('');
@@ -63,10 +65,10 @@ const GoalList = () => {
     };
 
     return (
-        <div className="pt-16 bg-gray-100 min-h-screen">
-            <div className="max-w-4xl mx-auto p-6 my-8 bg-white rounded-lg shadow-lg">
+        <div className={`pt-16 min-h-screen ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100 text-gray-800'}`}>
+            <div className={`max-w-4xl mx-auto p-6 my-8 ${darkMode ? 'bg-gray-800' : 'bg-white'} rounded-lg shadow-lg`}>
                 <motion.h2
-                    className="text-3xl font-bold text-gray-800 mb-8 text-center"
+                    className={`text-3xl font-bold mb-8 text-center ${darkMode ? 'text-white' : 'text-gray-800'}`}
                     initial={{ opacity: 0, y: -20 }}
                     animate={{ opacity: 1, y: 0 }}
                     transition={{ duration: 0.5 }}
@@ -91,13 +93,13 @@ const GoalList = () => {
                         return (
                             <motion.div
                                 key={goal._id}
-                                className="mb-8 p-6 bg-violet-50 border border-violet-200 rounded-lg shadow-sm"
+                                className={`mb-8 p-6 ${darkMode ? 'bg-violet-900 border-violet-700' : 'bg-violet-50 border-violet-200'} rounded-lg shadow-sm`}
                                 initial={{ opacity: 0, y: 20 }}
                                 animate={{ opacity: 1, y: 0 }}
                                 transition={{ duration: 0.5 }}
                             >
-                                <h3 className="text-2xl font-semibold text-violet-700 mb-4">{goal.title}</h3>
-                                <div className="text-gray-700">
+                                <h3 className={`text-2xl font-semibold mb-4 ${darkMode ? 'text-violet-300' : 'text-violet-700'}`}>{goal.title}</h3>
+                                <div>
                                     <p className="mb-2">
                                         <span className="font-medium">Target Amount:</span> ${goal.targetAmount.toLocaleString()}
                                     </p>
@@ -117,7 +119,7 @@ const GoalList = () => {
                                                 className="shadow-none flex flex-col text-center whitespace-nowrap text-white justify-center bg-red-400"
                                             ></div>
                                         </div>
-                                        <p className="text-sm text-gray-600 mt-1 text-right">
+                                        <p className="text-sm mt-1 text-right">
                                             {percentageComplete.toFixed(2)}% Complete
                                         </p>
                                     </div>
@@ -129,12 +131,12 @@ const GoalList = () => {
                                                     placeholder="Update Current Amount"
                                                     value={currentAmount}
                                                     onChange={(e) => setCurrentAmount(e.target.value)}
-                                                    className="p-2 border border-gray-300 rounded-md w-full mb-2 focus:outline-none focus:ring-2 focus:ring-blue-500"
+                                                    className={`p-2 border ${darkMode ? 'bg-gray-700 text-white' : 'bg-white text-gray-800'} rounded-md w-full mb-2 focus:outline-none focus:ring-2 ${darkMode ? 'focus:ring-blue-500' : 'focus:ring-blue-500'}`}
                                                     whileFocus={{ scale: 1.02 }}
                                                 />
                                                 <motion.button
                                                     onClick={() => handleUpdate(goal._id)}
-                                                    className="w-full bg-sky-900 text-white py-2 rounded-md hover:bg-sky-700 transition-colors"
+                                                    className={`w-full py-2 rounded-md transition-colors ${darkMode ? 'bg-sky-700 text-white' : 'bg-sky-900 text-white'} hover:bg-sky-600`}
                                                     whileHover={{ scale: 1.05 }}
                                                     whileTap={{ scale: 0.95 }}
                                                 >
@@ -144,7 +146,7 @@ const GoalList = () => {
                                         ) : (
                                             <motion.button
                                                 onClick={() => setEditGoalId(goal._id)}
-                                                className="w-full bg-sky-900 text-white py-2 rounded-md hover:bg-sky-700 transition-colors"
+                                                className={`w-full py-2 rounded-md transition-colors ${darkMode ? 'bg-sky-700 text-white' : 'bg-sky-900 text-white'} hover:bg-sky-600`}
                                                 whileHover={{ scale: 1.05 }}
                                                 whileTap={{ scale: 0.95 }}
                                             >
@@ -158,7 +160,7 @@ const GoalList = () => {
                     })
                 ) : (
                     <motion.p
-                        className="text-gray-600 text-center"
+                        className={`text-center ${darkMode ? 'text-gray-400' : 'text-gray-600'}`}
                         initial={{ opacity: 0 }}
                         animate={{ opacity: 1 }}
                         transition={{ duration: 0.5 }}
