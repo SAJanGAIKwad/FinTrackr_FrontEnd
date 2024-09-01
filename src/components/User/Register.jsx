@@ -1,4 +1,3 @@
-// src/components/Register.js
 import React, { useState, useContext } from 'react';
 import axios from 'axios';
 import { useNavigate, Link } from 'react-router-dom';
@@ -7,17 +6,17 @@ import 'react-toastify/dist/ReactToastify.css';
 import { ThemeContext } from '../../context/ThemeContext';  // Import ThemeContext
 
 const Register = () => {
-  const [formData, setFormData] = useState({ name: '', email: '', password: '' });
+  const [formData, setFormData] = useState({ name: '', email: '', password: '', mobileNumber: '' }); // Added mobileNumber to formData
   const { darkMode, setDarkMode } = useContext(ThemeContext); // Access ThemeContext
 
-  const { name, email, password } = formData;
+  const { name, email, password, mobileNumber } = formData;
 
   const onChange = e => setFormData({ ...formData, [e.target.name]: e.target.value });
   const navigate = useNavigate();
 
   const onSubmit = async e => {
     e.preventDefault();
-    const newUser = { name, email, password };
+    const newUser = { name, email, password, mobileNumber }; // Include mobileNumber in the newUser object
     try {
       const res = await axios.post('http://192.168.172.94:5000/api/auth/register', newUser);
       const token = res.data.token; // Get token from response
@@ -66,6 +65,20 @@ const Register = () => {
             value={email}
             onChange={onChange}
             placeholder="Email"
+            required
+            className={`shadow appearance-none border rounded w-full py-2 px-3 ${darkMode ? 'bg-gray-700 text-white' : 'text-gray-700'} leading-tight focus:outline-none focus:shadow-outline`}
+          />
+        </div>
+        <div className="mb-4">
+          <label className="block text-sm font-bold mb-2" htmlFor="mobileNumber">
+            Mobile Number
+          </label>
+          <input
+            type="text"
+            name="mobileNumber"
+            value={mobileNumber}
+            onChange={onChange}
+            placeholder="Mobile Number"
             required
             className={`shadow appearance-none border rounded w-full py-2 px-3 ${darkMode ? 'bg-gray-700 text-white' : 'text-gray-700'} leading-tight focus:outline-none focus:shadow-outline`}
           />

@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { AuthContext } from '../../context/AuthContext';
 import axios from 'axios';
-import { FaUser, FaEnvelope, FaCalendarAlt, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
+import { FaUser, FaEnvelope, FaPhone, FaCalendarAlt, FaEdit, FaSave, FaTimes } from 'react-icons/fa';
 import { ThemeContext } from '../../context/ThemeContext'; // Import ThemeContext
 
 const Profile = () => {
@@ -13,7 +13,8 @@ const Profile = () => {
     const [editing, setEditing] = useState(false);
     const [formData, setFormData] = useState({
         name: '',
-        email: ''
+        email: '',
+        mobile: '', // Add mobile to formData
     });
 
     useEffect(() => {
@@ -29,7 +30,7 @@ const Profile = () => {
                     headers: { 'x-auth-token': localStorage.getItem('token') },
                 });
                 setUserData(response.data);
-                setFormData({ name: response.data.name, email: response.data.email });
+                setFormData({ name: response.data.name, email: response.data.email, mobile: response.data.mobile });
             } catch (err) {
                 console.error('Error fetching user data:', err);
                 setError('Error fetching user data');
@@ -106,6 +107,20 @@ const Profile = () => {
                                 />
                             </div>
                         </div>
+                        <div className="mb-4">
+                            <label className="block text-sm font-bold mb-2">Mobile Number</label>
+                            <div className="relative">
+                                <FaPhone className="absolute top-2.5 left-3 text-gray-400" />
+                                <input
+                                    type="tel"
+                                    name="mobile"
+                                    value={formData.mobile}
+                                    onChange={handleChange}
+                                    className={`mt-1 p-2 pl-10 block w-full border rounded focus:ring focus:ring-blue-200 ${darkMode ? 'bg-gray-700 text-white' : 'text-gray-700'}`}
+                                    required
+                                />
+                            </div>
+                        </div>
                         <div className="flex justify-between">
                             <button
                                 type="submit"
@@ -129,6 +144,9 @@ const Profile = () => {
                         </p>
                         <p className="mb-4 flex items-center">
                             <FaEnvelope className="mr-2 text-gray-500" /> <span className="font-medium mx-2">Email: </span> {userData.email || 'Not available'}
+                        </p>
+                        <p className="mb-4 flex items-center">
+                            <FaPhone className="mr-2 text-gray-500" /> <span className="font-medium mx-2">Mobile: </span> {userData.mobileNumber || 'Not available'}
                         </p>
                         <p className="mb-4 flex items-center">
                             <FaCalendarAlt className="mr-2 text-gray-500" /> <span className="font-medium mx-2">Joined At: </span> {new Date(userData.createdAt).toLocaleDateString() || 'Not available'}
