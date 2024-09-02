@@ -14,7 +14,7 @@ const Profile = () => {
     const [formData, setFormData] = useState({
         name: '',
         email: '',
-        mobile: '', // Add mobile to formData
+        mobileNumber: '',
     });
 
     useEffect(() => {
@@ -30,7 +30,7 @@ const Profile = () => {
                     headers: { 'x-auth-token': localStorage.getItem('token') },
                 });
                 setUserData(response.data);
-                setFormData({ name: response.data.name, email: response.data.email, mobile: response.data.mobile });
+                setFormData({ name: response.data.name, email: response.data.email, mobileNumber: response.data.mobileNumber });
             } catch (err) {
                 console.error('Error fetching user data:', err);
                 setError('Error fetching user data');
@@ -73,58 +73,34 @@ const Profile = () => {
 
     return (
         <div className={`${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-100'} min-h-screen pt-16`}>
-            <div className={`max-w-4xl mx-auto p-6 my-8 rounded-lg shadow-lg ${darkMode ? 'bg-gray-800' : 'bg-white'}`}>
+            <div className={`max-w-4xl mx-auto p-6 my-8 rounded-lg shadow-lg ${darkMode ? 'bg-sky-800' : 'bg-white'}`}>
                 <h2 className="text-3xl font-bold mb-8 text-center flex items-center justify-center">
                     <FaUser className="mr-2" /> Profile
                 </h2>
                 {editing ? (
                     <form onSubmit={handleSubmit}>
-                        <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2">Name</label>
-                            <div className="relative">
-                                <FaUser className="absolute top-2.5 left-3 text-gray-400" />
-                                <input
-                                    type="text"
-                                    name="name"
-                                    value={formData.name}
-                                    onChange={handleChange}
-                                    className={`mt-1 p-2 pl-10 block w-full border rounded focus:ring focus:ring-blue-200 ${darkMode ? 'bg-gray-700 text-white' : 'text-gray-700'}`}
-                                    required
-                                />
+                        {['name', 'email', 'mobileNumber'].map((field, index) => (
+                            <div key={index} className="mb-4">
+                                <label className="block text-sm font-bold mb-2 capitalize">{field}</label>
+                                <div className="relative">
+                                    {field === 'name' && <FaUser className="absolute top-2.5 left-3 text-gray-400" />}
+                                    {field === 'email' && <FaEnvelope className="absolute top-2.5 left-3 text-gray-400" />}
+                                    {field === 'mobileNumber' && <FaPhone className="absolute top-2.5 left-3 text-gray-400" />}
+                                    <input
+                                        type={field === 'email' ? 'email' : 'text'}
+                                        name={field}
+                                        value={formData[field]}
+                                        onChange={handleChange}
+                                        className={`mt-1 p-2 pl-10 block w-full border rounded focus:ring ${darkMode ? 'bg-gray-700 border-gray-600 text-white focus:ring-sky-400' : 'bg-gray-100 border-gray-300 text-gray-700 focus:ring-sky-200'}`}
+                                        required
+                                    />
+                                </div>
                             </div>
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2">Email</label>
-                            <div className="relative">
-                                <FaEnvelope className="absolute top-2.5 left-3 text-gray-400" />
-                                <input
-                                    type="email"
-                                    name="email"
-                                    value={formData.email}
-                                    onChange={handleChange}
-                                    className={`mt-1 p-2 pl-10 block w-full border rounded focus:ring focus:ring-blue-200 ${darkMode ? 'bg-gray-700 text-white' : 'text-gray-700'}`}
-                                    required
-                                />
-                            </div>
-                        </div>
-                        <div className="mb-4">
-                            <label className="block text-sm font-bold mb-2">Mobile Number</label>
-                            <div className="relative">
-                                <FaPhone className="absolute top-2.5 left-3 text-gray-400" />
-                                <input
-                                    type="tel"
-                                    name="mobile"
-                                    value={formData.mobile}
-                                    onChange={handleChange}
-                                    className={`mt-1 p-2 pl-10 block w-full border rounded focus:ring focus:ring-blue-200 ${darkMode ? 'bg-gray-700 text-white' : 'text-gray-700'}`}
-                                    required
-                                />
-                            </div>
-                        </div>
-                        <div className="flex justify-between">
+                        ))}
+                        <div className="flex justify-between mt-6">
                             <button
                                 type="submit"
-                                className="flex items-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                                className="flex items-center bg-sky-500 text-white py-2 px-4 rounded hover:bg-sky-600"
                             >
                                 <FaSave className="mr-2" /> Save
                             </button>
@@ -153,7 +129,7 @@ const Profile = () => {
                         </p>
                         <button
                             onClick={() => setEditing(true)}
-                            className="mt-4 flex items-center bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600"
+                            className="mt-4 flex items-center bg-sky-500 text-white py-2 px-4 rounded hover:bg-sky-600"
                         >
                             <FaEdit className="mr-2" /> Edit Profile
                         </button>

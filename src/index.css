@@ -3,7 +3,4 @@
 @tailwind utilities;
 
 /* Add these styles if not already present */
-body {
-    transition: background-color 0.5s, color 0.5s;
-  }
   

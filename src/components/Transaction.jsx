@@ -7,7 +7,7 @@ import { ThemeContext } from '../context/ThemeContext'; // Import ThemeContext
 const Transaction = () => {
   const [userId, setUserId] = useState('');
   const navigate = useNavigate();
-  const { darkMode, toggleDarkMode } = useContext(ThemeContext); // Access dark mode state and toggle function
+  const { darkMode } = useContext(ThemeContext); // Access dark mode state
 
   useEffect(() => {
     const storedUserId = localStorage.getItem('userId');
@@ -19,19 +19,21 @@ const Transaction = () => {
   }, [navigate]);
 
   return (
-    <div className={`container mx-auto pt-16 min-h-screen flex flex-col items-center justify-center ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-800'}`}>
-      <div className="flex justify-end w-full mb-4">
-      </div>
-      <h2 className="text-2xl font-bold mb-4 p-7">Transaction</h2>
+    <div
+      className={`container mx-auto pt-16 min-h-screen flex flex-col items-center justify-center ${darkMode ? 'bg-gray-900 text-white' : 'bg-gray-200 text-gray-800'
+        }`}
+    >
+      <h2 className="text-3xl font-bold mb-8">Transaction</h2>
       {userId ? (
         <>
-          <div className="mb-4 w-full max-w-md">
+          <div className="mb-6 w-full max-w-md">
             <AddExpense userId={userId} onAdd={(expense) => console.log('Expense added:', expense)} />
           </div>
-          <div className="mt-4">
+          <div className="mt-6">
             <Link
               to="/expensedetails"
-              className={`bg-sky-900 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded inline-flex items-center ${darkMode ? 'bg-sky-700 hover:bg-sky-600' : ''}`}
+              className={`flex items-center justify-center bg-sky-900 hover:bg-blue-700 text-white font-bold py-2 px-6 rounded-md transition duration-200 ${darkMode ? 'bg-sky-700 hover:bg-sky-600' : ''
+                }`}
             >
               <FaMoneyCheckAlt className="mr-2" />
               Show Expense List
@@ -39,7 +41,7 @@ const Transaction = () => {
           </div>
         </>
       ) : (
-        <p>Loading...</p>
+        <p className="text-lg">Loading...</p>
       )}
     </div>
   );

@@ -106,14 +106,14 @@ const ExpenseList = ({ userId }) => {
 
 
   return (
-    <div className="min-h-screen ">
-      <div className="container mx-auto pb-4 bg-gray-100 rounded-lg shadow-md">
-        <h2 className="text-2xl font-bold mb-4 bg-white p-3">Expense List</h2>
+    <div className="min-h-screen bg-gray-50">
+      <div className="container mx-auto pb-4 bg-white rounded-lg shadow-md p-6">
+        <h2 className="text-2xl font-bold mb-4 text-gray-800">Expense List</h2>
         <div className="overflow-x-auto">
           <table className="min-w-full bg-white border border-gray-200">
             <thead>
               <tr>
-                <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center">Amount</th>
+                <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center">Amount (In USD)</th>
                 <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center">Category</th>
                 <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center">Description</th>
                 <th className="py-2 px-4 border-b border-gray-200 bg-gray-100 text-center">Currency</th>
@@ -123,13 +123,13 @@ const ExpenseList = ({ userId }) => {
             <tbody>
               {expenses.length === 0 ? (
                 <tr>
-                  <td colSpan="5" className="text-center py-4">
+                  <td colSpan="5" className="text-center py-4 text-gray-500">
                     No expenses found.
                   </td>
                 </tr>
               ) : (
                 expenses.map((expense) => (
-                  <tr key={expense._id}>
+                  <tr key={expense._id} className="hover:bg-gray-50">
                     <td className="py-2 px-4 border-b border-gray-200 text-center">{expense.amount}</td>
                     <td className="py-2 px-4 border-b border-gray-200 text-center">{expense.category}</td>
                     <td className="py-2 px-4 border-b border-gray-200 text-center">{expense.description}</td>
@@ -140,13 +140,13 @@ const ExpenseList = ({ userId }) => {
                           className="bg-red-500 text-white py-1 px-2 rounded hover:bg-red-600 transition"
                           onClick={() => deleteExpense(expense._id)}
                         >
-                          Delete
+                          <i className="fas fa-trash-alt"></i> Delete
                         </button>
                         <button
                           className="bg-blue-500 text-white py-1 px-2 rounded hover:bg-blue-600 transition"
                           onClick={() => editExpense(expense)}
                         >
-                          Modify
+                          <i className="fas fa-edit"></i> Modify
                         </button>
                       </div>
                     </td>
@@ -155,26 +155,27 @@ const ExpenseList = ({ userId }) => {
               )}
             </tbody>
           </table>
-          <div className="mt-4 flex justify-end space-x-4">
+          <div className="mt-4 flex justify-end space-x-3">
             <button
-              className="bg-green-500 text-white py-2 px-4 rounded hover:bg-green-600 transition"
+              className="bg-green-500 text-white py-2 px-3 rounded hover:bg-green-600 transition"
               onClick={exportToCSV}
             >
-              Export as CSV
+              <i className="fas fa-file-csv"></i> Export as CSV
             </button>
             <button
-              className="bg-blue-500 text-white py-2 px-4 rounded hover:bg-blue-600 transition"
+              className="bg-blue-500 text-white py-2 px-3 rounded hover:bg-blue-600 transition"
               onClick={exportToPDF}
             >
-              Export as PDF
+              <i className="fas fa-file-pdf"></i> Export as PDF
             </button>
           </div>
         </div>
 
-        <div className="mt-8 bg-white m-4 p-4 rounded-lg ">
+        <div className="mt-8 bg-white m-4 p-6 rounded-lg  shadow-md">
           <h3 className="text-lg font-semibold text-gray-700">Total Expense</h3>
           <p className="text-2xl font-bold text-sky-900">${totalExpense}</p>
         </div>
+
 
         {editingExpense && (
           <div
