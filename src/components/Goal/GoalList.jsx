@@ -35,7 +35,7 @@ const GoalList = () => {
             const updatedCurrentAmount = parseFloat(goalToUpdate.currentAmount) + parseFloat(currentAmount);
 
             const res = await axios.put(
-                `http://192.168.172.94:5000/api/goals/${goalId}`,
+                `https://fintrackr-backend-no1g.onrender.com/api/goals/${goalId}`,
                 { currentAmount: updatedCurrentAmount },
                 { headers: { 'x-auth-token': localStorage.getItem('token') } }
             );
