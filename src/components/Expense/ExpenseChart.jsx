@@ -20,7 +20,7 @@ const ExpenseChart = () => {
     useEffect(() => {
         const fetchExpenses = async () => {
             try {
-                const response = await axios.get(`http://192.168.172.94:5000/api/expenses/${userId}`);
+                const response = await axios.get(`https://fintrackr-backend-no1g.onrender.com/api/expenses/${userId}`);
                 const expenses = response.data;
 
                 if (!expenses || !Array.isArray(expenses)) {

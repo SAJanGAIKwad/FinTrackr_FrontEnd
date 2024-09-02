@@ -26,7 +26,7 @@ const Profile = () => {
 
         const fetchUserData = async () => {
             try {
-                const response = await axios.get(`http://192.168.172.94:5000/api/users/${userId}`, {
+                const response = await axios.get(`https://fintrackr-backend-no1g.onrender.com/api/users/${userId}`, {
                     headers: { 'x-auth-token': localStorage.getItem('token') },
                 });
                 setUserData(response.data);
@@ -52,7 +52,7 @@ const Profile = () => {
     const handleSubmit = async (e) => {
         e.preventDefault();
         try {
-            const response = await axios.put(`http://192.168.172.94:5000/api/users/${userId}`, formData, {
+            const response = await axios.put(`https://fintrackr-backend-no1g.onrender.com/api/users/${userId}`, formData, {
                 headers: { 'x-auth-token': localStorage.getItem('token') },
             });
             setUserData(response.data);

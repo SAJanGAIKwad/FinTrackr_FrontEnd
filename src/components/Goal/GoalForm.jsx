@@ -17,7 +17,7 @@ const GoalForm = ({ onGoalAdded }) => {
     const onSubmit = async (e) => {
         e.preventDefault();
         try {
-            await axios.post('http://192.168.172.94:5000/api/goals', goal, {
+            await axios.post('https://fintrackr-backend-no1g.onrender.com/api/goals', goal, {
                 headers: { 'x-auth-token': localStorage.getItem('token') },
             });
             toast.success('Goal created successfully!');

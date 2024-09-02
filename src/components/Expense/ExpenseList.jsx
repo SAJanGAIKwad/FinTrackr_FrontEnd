@@ -8,7 +8,7 @@ const ExpenseList = ({ userId }) => {
 
   const exportToCSV = async () => {
     try {
-      const response = await axios.get(`http://192.168.172.94:5000/api/expenses/${userId}/export/csv`, {
+      const response = await axios.get(`https://fintrackr-backend-no1g.onrender.com/api/expenses/${userId}/export/csv`, {
         responseType: 'blob',
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -24,7 +24,7 @@ const ExpenseList = ({ userId }) => {
 
   const exportToPDF = async () => {
     try {
-      const response = await axios.get(`http://192.168.172.94:5000/api/expenses/${userId}/export/pdf`, {
+      const response = await axios.get(`https://fintrackr-backend-no1g.onrender.com/api/expenses/${userId}/export/pdf`, {
         responseType: 'blob',
       });
       const url = window.URL.createObjectURL(new Blob([response.data]));
@@ -41,7 +41,7 @@ const ExpenseList = ({ userId }) => {
   useEffect(() => {
     const fetchExpenses = async () => {
       try {
-        const response = await axios.get(`http://192.168.172.94:5000/api/expenses/${userId}`);
+        const response = await axios.get(`https://fintrackr-backend-no1g.onrender.com/api/expenses/${userId}`);
         setExpenses(response.data);
       } catch (error) {
         console.error('Error fetching expenses:', error);
@@ -53,7 +53,7 @@ const ExpenseList = ({ userId }) => {
 
   const deleteExpense = async (id) => {
     try {
-      await axios.delete(`http://192.168.172.94:5000/api/expenses/${id}`, {
+      await axios.delete(`https://fintrackr-backend-no1g.onrender.com/api/expenses/${id}`, {
         headers: {
           'x-auth-token': localStorage.getItem('token'),
         },
@@ -76,7 +76,7 @@ const ExpenseList = ({ userId }) => {
 
   const updateExpense = async () => {
     try {
-      const response = await axios.put(`http://192.168.172.94:5000/api/expenses/${editingExpense._id}`, form, {
+      const response = await axios.put(`https://fintrackr-backend-no1g.onrender.com/api/expenses/${editingExpense._id}`, form, {
         headers: {
           'x-auth-token': localStorage.getItem('token'),
         },

@@ -19,7 +19,7 @@ const AddExpense = ({ userId, onAdd }) => {
     e.preventDefault();
     try {
       const newExpense = { amount: parseFloat(amount), category, description, currency, userId };
-      const response = await axios.post('http://192.168.172.94:5000/api/expenses/add', newExpense);
+      const response = await axios.post('https://fintrackr-backend-no1g.onrender.com/api/expenses/add', newExpense);
       onAdd(response.data);
       setAmount('');
       setCategory('');

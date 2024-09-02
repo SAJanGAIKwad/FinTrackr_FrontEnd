@@ -17,7 +17,7 @@ const GoalList = () => {
     useEffect(() => {
         const fetchGoals = async () => {
             try {
-                const res = await axios.get('http://192.168.172.94:5000/api/goals', {
+                const res = await axios.get('https://fintrackr-backend-no1g.onrender.com/api/goals', {
                     headers: { 'x-auth-token': localStorage.getItem('token') },
                 });
                 setGoals(res.data.filter(goal => !goal.isAchieved));
